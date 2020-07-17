@@ -57,7 +57,7 @@ class App extends Koa {
   }
 
   initMiddleware() {
-    const { middlewares = [], routes = [], config } = this.options;
+    const { middlewares = [], routes = [], config = {} } = this.options;
 
     // 初始化中间件
     this.use(middleware.init())
@@ -69,7 +69,6 @@ class App extends Koa {
     }
 
     this.use(middleware.bodyParser());
-    this.use(middleware.route(routes, this.controllerLoader))
 
     // 初始化业务中间件
     middlewares.forEach(m => {
@@ -78,7 +77,10 @@ class App extends Koa {
       } else {
         throw new Error('中间件必须是函数');
       }
-    })
+    });
+
+    // controller要最后注册
+    this.use(middleware.route(routes, this.controllerLoader))
   }
 
 }
