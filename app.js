@@ -6,13 +6,9 @@ const ControllerLoader = require('./loader/controller');
 const ServiceLoader = require('./loader/service');
 
 class App extends Koa {
-  constructor(options) {
+  constructor(options={}) {
     super();
-    const { projectRoot, rootControllerPath, rootServicePath, rootViewPath } = options;
-    if (!projectRoot) {
-      throw new Error('projectRoot must specialfied')
-    }
-
+    const { projectRoot = process.cwd(), rootControllerPath, rootServicePath, rootViewPath } = options;
     this.rootControllerPath = rootControllerPath || path.join(projectRoot, 'controllers')
     this.rootServicePath = rootServicePath || path.join(projectRoot, 'services')
     this.rootViewPath = rootViewPath || path.join(projectRoot, 'views')
@@ -61,6 +57,7 @@ class App extends Koa {
 
     // 初始化中间件
     this.use(middleware.init())
+    this.use(middleware.healthcheck())
     this.use(middleware.views(this.rootViewPath, { map: { html: 'ejs' } }))
 
     if (config && config.proxy) {

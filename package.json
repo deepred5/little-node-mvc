@@ -1,6 +1,6 @@
 {
   "name": "little-node-mvc",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "a mini mvc nodejs framework",
   "main": "index.js",
   "dependencies": {
