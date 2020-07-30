@@ -1,6 +1,5 @@
 const Router = require('koa-router');
 const koaCompose = require('koa-compose')
-const a = require('../loader/controller');
 
 module.exports = (routerConfig, loader) => {
   const router = new Router();
